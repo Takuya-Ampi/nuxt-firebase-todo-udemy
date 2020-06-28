@@ -5,40 +5,42 @@
       <li v-for="todo in todos" :key="todo.id">
         <!-- {{ todo }}; -->
         {{ todo.done }}, {{ todo.name }}, {{ todo.created }}
+        <button @click="remove(todo.id)">X</button>
       </li>
     </ul>
     <div class="form">
       <form @submit.prevent="add">
-        <input v-model="name">
+        <input v-model="name" />
         <button>ADD</button>
       </form>
     </div>
-
   </div>
 </template>
 
 <script>
-  export default {
-    data(){
-      return {
-        name: '',
-        done: false
-      }
+export default {
+  data() {
+    return {
+      name: "",
+      done: false
+    };
+  },
+  created() {
+    this.$store.dispatch("todos/init");
+  },
+  methods: {
+    add() {
+      this.$store.dispatch("todos/add", this.name);
+      this.name = "";
     },
-    created() {
-      this.$store.dispatch('todos/init')
-    },
-    methods: {
-      add(){
-        this.$store.dispatch('todos/add', this.name)
-        this.name = ''
-      }
-    },
-    computed: {
-      todos(){
-        return this.$store.state.todos.todos
-      }
-
+    remove(id) {
+      this.$store.dispatch("todos/remove", id);
+    }
+  },
+  computed: {
+    todos() {
+      return this.$store.state.todos.todos;
     }
   }
+};
 </script>
