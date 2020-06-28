@@ -4,7 +4,8 @@
     <ul>
       <li v-for="todo in todos" :key="todo.id">
         <!-- {{ todo }}; -->
-        {{ todo.done }}, {{ todo.name }}, {{ todo.created }}
+        <input type="checkbox" :checked="todo.done" @change="toggle(todo)">
+        {{ todo.name }}, {{ todo.created }}
         <button @click="remove(todo.id)">X</button>
       </li>
     </ul>
@@ -21,20 +22,23 @@
 export default {
   data() {
     return {
-      name: "",
+      name: '',
       done: false
     };
   },
   created() {
-    this.$store.dispatch("todos/init");
+    this.$store.dispatch('todos/init');
   },
   methods: {
     add() {
-      this.$store.dispatch("todos/add", this.name);
-      this.name = "";
+      this.$store.dispatch('todos/add', this.name);
+      this.name = '';
     },
     remove(id) {
-      this.$store.dispatch("todos/remove", id);
+      this.$store.dispatch('todos/remove', id);
+    },
+    toggle(todo){
+      this.$store.dispatch('todos/toggle', todo)
     }
   },
   computed: {
