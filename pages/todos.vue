@@ -3,16 +3,21 @@
     <!-- {{ todos }} -->
     <ul>
       <li v-for="todo in todos" :key="todo.id">
-        <!-- {{ todo }}; -->
-        <input type="checkbox" :checked="todo.done" @change="toggle(todo)">
-        {{ todo.name }}, {{ todo.created }}
-        <button @click="remove(todo.id)">X</button>
+        <!-- {{ todo }} -->
+        <input
+        type="checkbox"
+        v-bind:checked="todo.done"
+        @change="toggle(todo)">
+        <span v-bind:class="{ done: todo.done }">
+          {{ todo.name }} {{ todo.created }}
+        </span>
+        <button v-on:click="remove(todo.id)">X</button>
       </li>
     </ul>
     <div class="form">
-      <form @submit.prevent="add">
-        <input v-model="name" />
-        <button>ADD</button>
+      <form v-on:submit.prevent="add">
+        <input v-model="name">
+        <button>Add</button>
       </form>
     </div>
   </div>
@@ -48,3 +53,9 @@ export default {
   }
 };
 </script>
+
+<style>
+li > span.done {
+  text-decoration: line-through;
+}
+</style>
